@@ -1,18 +1,28 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Button from './Button'
+import { useAuth0 } from '@auth0/auth0-react';
 
 function Navbar() {
+    const [isVisible, setIsVisible] = useState(false);
+    const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
-    const [isVisible, setIsVisible] = useState(false)
+    const signOutOnClick = () => {
+        logout();
+    };
+
+    const signInOnClick = () => {
+        loginWithRedirect();
+    };
 
     const dropDown = () => {
-        setIsVisible(!isVisible)
-    }
+        setIsVisible(!isVisible);
+    };
 
     const clicked = () => {
-        setIsVisible(false)
-    }
+        setIsVisible(false);
+    };
+
 
 
     return (
@@ -47,6 +57,7 @@ function Navbar() {
                         </div>
 
                     </Button>
+                   
                     <Button className='p-3 m-5 bg-teal-400 justify-center'>
                         <div>
                             <Link to='/dashboard' onClick={ clicked} className='flex place-itmes-center mt-4 lg:inline-block lg:mt-0
@@ -56,6 +67,24 @@ function Navbar() {
                         </div>
 
                     </Button>
+                    {
+                            !isAuthenticated ? 
+                            <Button className='p-3 m-5 bg-teal-400 justify-center'>
+                                <div>
+                                    <Link to="/" onClick={signInOnClick} className='flex place-items-center mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white'>
+                                        Login
+                                    </Link>
+                                </div>
+                            </Button>
+                            :
+                            <Button className='p-3 m-5 bg-teal-400 justify-center'>
+                                <div>
+                                    <Link to="/" onClick={signOutOnClick} className='flex place-items-center mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white'>
+                                        Sign Out
+                                    </Link>
+                                </div>
+                            </Button>
+                        }
                 </div>
             </div>
             ) : (

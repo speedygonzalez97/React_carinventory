@@ -1,9 +1,11 @@
 // @ts-ignore
-import React from 'react'
+import DataTable from '../components/DataTable'
 
 function Dashboard() {
   return (
-    <div>This is where you can add, delete, update, and see your list of cars. Enjoy!</div>
+    <div>This is where you can add, delete, update, and see your list of cars. Enjoy!
+            <DataTable />
+    </div>
   )
 }
 
