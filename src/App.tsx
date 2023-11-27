@@ -1,3 +1,4 @@
+// @ts-ignore
 import { HashRouter, Routes, Route, Link } from 'react-router-dom'
 import routes from './config/routes'
 import Navbar from './components/Navbar'

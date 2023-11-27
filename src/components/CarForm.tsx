@@ -1,6 +1,7 @@
 // @ts-ignore
 import { useSubmit } from "react-router-dom"
 import Button from "./Button"
+
 import Input from "./Input"
 
 import { useForm } from 'react-hook-form'
@@ -9,14 +10,16 @@ import { useDispatch, useStore } from "react-redux"
 import { choosecolor, chooseid, choosemake, choosemodel, chooseyear } from "../redux/slices/RootSlice"
 
 
-interface ContactFormProps {
+interface CarFormProps {
   id?: string[]
+  onClose: () => void;
 }
 
-  const ContactForm = ( props:ContactFormProps) => {
+  const CarForm = ( props:CarFormProps) => {
   const { register, handleSubmit } = useForm({})
   const dispatch = useDispatch();
   const store = useStore();
+  
   const onSubmit = (data: any, event: any) => {
     console.log(`ID: ${typeof props.id}`);
     console.log(props.id)
@@ -24,6 +27,8 @@ interface ContactFormProps {
     if (props.id && props.id.length > 0) {
       server_calls.update(props.id[0], data)
       console.log(`Updated: ${ data.first } ${ props.id }`)
+      setTimeout(() => {window.location.reload()}, 1000);
+      event.target.reset()
     } else {
       dispatch(choosecolor(data.color));
       dispatch(chooseid(data.id));
@@ -32,12 +37,20 @@ interface ContactFormProps {
       dispatch(chooseyear(data.year));
 
       server_calls.create(store.getState())
+      setTimeout(() => {window.location.reload()}, 1000);
+      event.target.reset()
+
+      props.onClose();
     }
   }
 
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
+      <div>
+          <label htmlFor="id">id</label>
+          <Input {...register('id')} name='id' placeholder="id" />
+        </div>
         <div>
           <label htmlFor="make">make</label>
           <Input {...register('make')} name='make' placeholder="make" />
@@ -54,10 +67,6 @@ interface ContactFormProps {
           <label htmlFor="color">color</label>
           <Input {...register('color')} name='color' placeholder="color" />
         </div>
-        <div>
-          <label htmlFor="id">id</label>
-          <Input {...register('id')} name='id' placeholder="id" />
-        </div>
         <div className="flex p-1">
           <Button className="flex justify-start m-3 bg-slate-300 p-2 rounded hover:bg-slate-800 text-white"
           >
@@ -69,4 +78,4 @@ interface ContactFormProps {
   )
 }
 
-export default ContactForm
+export default CarForm

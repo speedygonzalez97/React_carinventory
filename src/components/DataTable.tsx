@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { useState } from 'react'
 import Button from "./Button"
 import Modal from "./Modal"
@@ -6,7 +7,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useGetData } from '../custom-hooks/FetchData';
 
 const columns: GridColDef[] = [
-    { field: 'id', headerName: "ID", width: 90, hide: true},
+    { field: 'id', headerName: "ID", width: 90},
     { field: 'make', headerName: "make", flex: 1},
     { field: 'model', headerName: "model", flex: 1},
     { field: 'year', headerName: "year", flex: 1},
@@ -15,7 +16,7 @@ const columns: GridColDef[] = [
 
 function DataTable() {
     let [ open, setOpen ] = useState(false);
-    const { contactData, getData } = useGetData();
+    const { carData, getData } = useGetData();
     const [ selectionModel, setSelectionModel ] = useState<string[]>([])
 
     const handleOpen = () => {
@@ -45,9 +46,8 @@ function DataTable() {
             <div>
                 <button
                     className="p-3 bg-slate-300 rounded m-3 hover:bg-slate-800 hover:text-white"
-                    onClick={() => handleOpen()}
-                >
-                    Create New Contact
+                    onClick={() => handleOpen()}>
+                    Create New Car
                 </button>
             </div> 
             <Button onClick={handleOpen} className="p-3 bg-slate-300 rounded m-3 hover:bg-slate-800 hover:text-white" >Update</Button>
@@ -56,11 +56,18 @@ function DataTable() {
         <div className={ open ? "hidden" : "container mx-10 my-5 flex flex-col"}
             style={{ height: 400, width: '100%'}}
         >
-            <h2 className="p-3 bg-slate-300 my-2 rounded">My Contacts</h2>
-            <DataGrid rows={contactData} columns={columns} rowsPerPageOptions={[5]}
+            <h2 className="p-3 bg-slate-300 my-2 rounded">My Cars</h2>
+            <DataGrid 
+            rows={carData} 
+            columns={columns}
             checkboxSelection={true} 
-            onSelectionModelChange={ (item:any) => {
-                setSelectionModel(item)
+            onRowSelectionModelChange={ (item:any) => {
+                setSelectionModel(item);
+            }}
+            componentsProps={{
+                pagination: {
+                    rowsPerPageOptions: [5]
+                }
             }}
             />
         </div>

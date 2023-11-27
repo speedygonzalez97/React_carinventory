@@ -6,8 +6,8 @@ function Home() {
       style={{ backgroundImage: `url(${ Background })`}} 
       className='flex flex-row justify-center mx-auto bg-cover bg-fixed'
       >
-        <div className='flex place-items-center h-screen'>
-          <h3 className='p-5 bg-white bg-opacity-100 text-black rounded'>This is the car inventory, welcome!</h3>
+        <div className='flex  h-screen'>
+          <h1 className='p-5 bg-opacity-100 text-black rounded font-size-100px'>Welcome to the car inventory!</h1>
         </div>
     </div>
   )
